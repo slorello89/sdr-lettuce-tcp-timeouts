@@ -189,8 +189,8 @@ resource "azurerm_dns_a_record" "app-dns-record" {
 resource "azurerm_dns_a_record" "redis-dns-record" {
   depends_on          = [azurerm_public_ip.lettuce-cutoff-redis-public-ip, azurerm_virtual_machine.lettuce-cutoff-redis]
   name                = "redis"  # This will create test.sub.example.com
-  zone_name           = "redis-az.slorello.com"
-  resource_group_name = "slorello-rg"
+  zone_name           = var.dns_zone_name
+  resource_group_name = var.dns_zone_rg
   ttl                 = 300
 
   records = [azurerm_public_ip.lettuce-cutoff-redis-public-ip.ip_address]
