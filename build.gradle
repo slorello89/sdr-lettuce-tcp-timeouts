@@ -1,0 +1,67 @@
+plugins {
+    id 'java'
+
+    id 'org.springframework.boot' version '3.2.5' // or whatever version you're using
+    id 'io.spring.dependency-management' version '1.1.4'
+    id 'application'
+//    id 'com.github.johnrengelman.shadow' version '8.1.1'
+}
+
+group = 'org.example'
+version = '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+jar{
+    manifest {
+        attributes(
+                'Main-Class': 'org.example.Main'
+        )
+    }
+}
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(17)
+    }
+}
+
+dependencies {
+    testImplementation platform('org.junit:junit-bom:5.9.1')
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+    implementation "org.reflections:reflections:0.10.2"
+//    implementation 'io.netty:netty-transport-native-epoll:4.1.109.Final:linux-x86_64@jar'
+//    implementation 'io.netty:netty-transport-native-epoll:4.1.113.Final'
+//    implementation 'io.netty:netty-transport-native-epoll:4.1.113.Final'
+//    runtimeOnly 'io.netty:netty-transport-native-epoll:4.1.113.Final:linux-x86_64@jar'
+//     'io.netty:netty-transport-native-epoll:4.1.109.Final'
+//    implementation 'io.lettuce:lettuce-core:6.5.0.RELEASE'
+    implementation 'io.lettuce:lettuce-core'
+    implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+    implementation 'org.springframework.boot:spring-boot-starter'
+
+}
+
+//configurations.all {
+//    exclude group: 'io.netty', module: 'netty-transport-native-epoll'
+//}
+
+application {
+    mainClass = 'org.example.Main'
+}
+
+test {
+    useJUnitPlatform()
+}
+
+task copyRuntimeLibs(type: Copy) {
+    from configurations.runtimeClasspath
+    into "$buildDir/runtime-libs"
+}
+//
+//bootJar {
+//    enabled = true
+//    mainClass.set('org.example.Main') // Again, your main class
+//}

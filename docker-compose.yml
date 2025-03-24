@@ -1,0 +1,12 @@
+services:
+  java:
+    ports:
+      - "8080:8080"
+    build:
+      context: .
+    links:
+      - redis
+  redis:
+    image: redis/redis-stack-server:latest
+    ports:
+      - '6379:6379'
